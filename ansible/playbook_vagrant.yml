@@ -8,8 +8,6 @@
 - import_playbook: mailcatcher.yml
 #- import_playbook: compozer.yml
 - import_playbook: new_project.yml
-  vars:
-    new_project: true
+  when: (new_project == true)
 - import_playbook: exist_project.yml
-  vars:
-    new_project: false
+  when: (new_project == false)
