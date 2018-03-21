@@ -73,6 +73,22 @@
       args:
         chdir: "{{ nginx_magento_server_doc_root }}/bin/"
 
+    - name: Clean generated cache during magento installation
+      file:
+        state: absent
+        path: "{{ nginx_magento_server_doc_root }}/var/cache/"
+    - name: Clean generated full page cache during magento installation
+      file:
+        state: absent
+        path: "{{ nginx_magento_server_doc_root }}/var/page_cache/"
+    - name: Clean generated session during magento installation
+      file:
+        state: absent
+        path: "{{ nginx_magento_server_doc_root }}/var/session/"
+    - name: Remove generated env.php
+      file:
+        state: absent
+        path: "{{ nginx_magento_server_doc_root }}/app/etc/env.php"
     - name: Generate env.php
       template:
         src: templates/env.php.j2
@@ -80,3 +96,5 @@
         mode: 0775
 #        owner: "{{ ansible_user }}"
 #        group: "{{ ansible_user }}"
+    - name: Move env.php from /tmp into "{{ nginx_magento_server_doc_root }}/app/etc/"
+      command: mv /tmp/env.php {{ nginx_magento_server_doc_root }}/app/etc/env.php
