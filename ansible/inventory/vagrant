@@ -1,11 +1,11 @@
 [frontend]
-magento2.local  ansible_user=vagrant   ansible_port=22
+vagrantbox.m2.local  ansible_user=vagrant   ansible_port=22
 
 [database]
-magento2.local  ansible_user=vagrant   ansible_port=22
+vagrantbox.m2.local  ansible_user=vagrant   ansible_port=22
 
 [backend]
-magento2.local  ansible_user=vagrant   ansible_port=22
+vagrantbox.m2.local  ansible_user=vagrant   ansible_port=22
 
 [vagrant:children]
 database

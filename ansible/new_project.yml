@@ -20,8 +20,8 @@
       file:
         path: "{{ nginx_magento_server_doc_root }}"
         state: directory
-#        owner: "{{ ansible_user }}"
-#        group: "{{ ansible_user }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         mode: 0775
 
 

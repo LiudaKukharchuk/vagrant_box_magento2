@@ -11,8 +11,8 @@ magento_version: "2.2.2"
 #### nginx vhost magento Start
 nginx_magento_auth_basic: false
 nginx_magento_server_port: "80"
-nginx_magento_server_name_helper: "magento2.local"
-nginx_magento_server_name: "magento2.local"
+nginx_magento_server_name_helper: "vagrantbox.m2.local"
+nginx_magento_server_name: "vagrantbox.m2.local"
 nginx_magento_server_doc_root: "/vagrant/source"
 nginx_magento_server_php_fpm: "unix:/var/run/php{{ php_version }}-fpm.sock"
 #nginx_magento_server_php_fpm: "127.0.0.1:9000"
@@ -49,7 +49,7 @@ db_collation: utf8_general_ci
 db_user: "magento"
 db_user_password: "magento"
 db_host: "localhost"
-#db_dump_file: "../extras/db.sql.gz"
+db_dump_file: "../extras/db.sql.gz"
 
 generate_custom_mycnf: false
 # Some defaults variables for percona server custom my.cnf config file
@@ -317,5 +317,9 @@ mage_admin_password: "qa123123"
 mage_admin_first_name: "Admin"
 mage_admin_last_name: "Admin"
 mage_admin_email: "kuharchuk.luda@gmail.com"
-mage_mode: "developer"
 ####
+
+###
+# Check if this is a new project and need to install magento
+new_project: true
+###

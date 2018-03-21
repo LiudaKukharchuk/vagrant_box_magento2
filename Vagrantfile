@@ -1,3 +1,4 @@
+Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
 Vagrant.require_version ">= 1.8"
 
 def which(cmd)
@@ -34,20 +35,19 @@ Vagrant.configure("2") do |config|
 
         v.customize ["modifyvm", :id, "--memory", mem]
         v.customize ["modifyvm", :id, "--cpus", cpus]
-        v.customize ["modifyvm", :id, "--name", "magento2.local"]
+        v.customize ["modifyvm", :id, "--name", "vagrantbox.m2.local"]
         v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate//vagrant","1"]
     end
 
-Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
 
     #16.04
     config.vm.box = "ubuntu/xenial64"
     #14.04
     #config.vm.box = "ubuntu/trusty64"
-    config.vm.network :private_network, ip: "192.168.33.49"
+    config.vm.network :private_network, ip: "192.168.33.51"
     config.ssh.forward_agent = true
-    config.vm.hostname = "magento2.local"
+    config.vm.hostname = "vagrantbox.m2.local"
     #config.hostsupdater.aliases = ["b2b.xwiki.local" ,"b2c.xwiki.local", "bw.xwiki.local"]
     config.hostsupdater.remove_on_suspend = false
 
@@ -66,5 +66,5 @@ Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
     else
         config.vm.synced_folder "./", "/vagrant", nfs: true
     end
-        config.vm.provision :shell, path: "ansible/windows.sh", args: ["magento2.local"]
+        config.vm.provision :shell, path: "ansible/windows.sh", args: ["vagrantbox.m2.local"]
 end

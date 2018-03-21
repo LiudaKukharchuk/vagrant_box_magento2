@@ -1,0 +1,55 @@
+---
+- hosts: frontend
+  become: yes
+  tasks:
+    - name: Set up permissions for magento folders
+      file:
+        path: "{{ nginx_magento_server_doc_root }}/{{ item }}"
+        mode: 0777
+        state: directory
+        recurse: yes
+#        owner: "{{ ansible_user }}"
+#        group: "{{ ansible_user }}"
+      with_items:
+        - "var/"
+        - "pub/static/"
+        - "pub/media/"
+        - "app/etc"
+
+
+    - name: Generate composer.json
+      template:
+        src: templates/composer.json.j2
+        dest: "/tmp/composer.json"
+        mode: 0775
+    - name: Move composer.json from /tmp into "/vagrant/source/"
+      command: mv /tmp/composer.json {{ nginx_magento_server_doc_root }}/composer.json
+    - name: Start composer installation (the process is long-term ≈ about 30m. Best time for cup of coffe or tea ;) )
+      composer:
+        command: install
+        working_dir: "{{ nginx_magento_server_doc_root }}"
+
+
+    - name: Generate env.php
+      template:
+        src: templates/env.php.j2
+        dest: "/tmp/env.php"
+        mode: 0775
+#        owner: "{{ ansible_user }}"
+#        group: "{{ ansible_user }}"
+    - name: Move env.php from /tmp into "{{ nginx_magento_server_doc_root }}/app/etc/"
+      command: mv /tmp/env.php {{ nginx_magento_server_doc_root }}/app/etc/env.php
+    - name: Generate config.php
+      template:
+        src: templates/config.php.j2
+        dest: "/tmp/config.php"
+        mode: 0775
+#        owner: "{{ ansible_user }}"
+#        group: "{{ ansible_user }}"
+    - name: Move config.php from /tmp into "{{ nginx_magento_server_doc_root }}/app/etc/"
+      command: mv /tmp/config.php {{ nginx_magento_server_doc_root }}/app/etc/config.php
+    - name: Generate auth.json
+      template:
+        src: templates/auth.json.j2
+        dest: "/tmp/auth.json"
+        mode: 0775
