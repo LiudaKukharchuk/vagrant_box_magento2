@@ -2,6 +2,9 @@
 CHECK_ANSIBLE=$(which ansible)
 VERSION_UBUNTU=$(lsb_release -rs)
 
+# uncoment for check passed variables
+#echo "$2" >> /vagrant/ansible/test.txt
+
 if [ "$VERSION_UBUNTU" == "16.04" ]
 then
     echo ubuntu:ubuntu | chpasswd
@@ -18,7 +21,7 @@ then
     else
         cat /etc/ssh/ssh_host_rsa_key.pub >> /home/vagrant/.ssh/authorized_keys
     fi
-    sudo ansible-playbook /vagrant/ansible/playbook_vagrant.yml -e hostname=$1 --connection=local #-vvv
+    sudo ansible-playbook /vagrant/ansible/playbook_vagrant.yml -e hostname=$1 -e projectStatus=$2 --connection=local #-vvv
 else
     # Update Repositories
     if [ "$VERSION_UBUNTU" == "14.04" ]
@@ -54,5 +57,7 @@ else
     else
         cat /etc/ssh/ssh_host_rsa_key.pub >> /home/vagrant/.ssh/authorized_keys
     fi
-    sudo ansible-playbook /vagrant/ansible/playbook_vagrant.yml -e hostname=$1 --connection=local #-vvv
+
+
+    sudo ansible-playbook /vagrant/ansible/playbook_vagrant.yml -e hostname=$1 -e projectStatus=$2 --connection=local #-vvv
 fi

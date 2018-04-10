@@ -1,6 +1,25 @@
 Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
 Vagrant.require_version ">= 1.8"
 
+# get my custom variable from console
+require 'getoptlong'
+
+opts = GetoptLong.new(
+  [ '--new-project', GetoptLong::OPTIONAL_ARGUMENT ]
+)
+
+$projectStatus=''
+
+opts.each do |opt, arg|
+  case opt
+    when '--new-project'
+      $projectStatus=arg
+
+  end
+end
+
+# end of getting my custom variable
+
 def which(cmd)
     exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
     ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
@@ -13,6 +32,7 @@ def which(cmd)
 end
 
 Vagrant.configure("2") do |config|
+
     # VirtualBox setting
     # Use all CPU cores and 1/4 system memory
     config.vm.provider "virtualbox" do |v|
@@ -66,5 +86,10 @@ Vagrant.configure("2") do |config|
     else
         config.vm.synced_folder "./", "/vagrant", nfs: true
     end
-        config.vm.provision :shell, path: "ansible/windows.sh", args: ["vagrantbox.m2.local"]
+
+# Display my custom variable
+        config.vm.provision "shell",
+          inline: "echo '#{$projectStatus}'"
+
+        config.vm.provision :shell, :path => "ansible/windows.sh", :args => "'vagrantbox.m2.local', '#{$projectStatus}'"
 end
