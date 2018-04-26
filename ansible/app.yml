@@ -1,0 +1,15 @@
+---
+- hosts: frontend
+  become: yes
+  tasks:
+    - name: Enable Magento cron
+      cron: name="magento cron" minute="*/1" job="{{ nginx_magento_server_doc_root }}/pub/cron.sh" user="{{ ansible_user }}"
+      when: magento_enable_cron == true
+    - name: Clean helpfull /tmp folder :-)
+      file: path="/tmp/{{ item }}" state=absent
+      with_items:
+        - "*.sql"
+        - "*.tar.gz"
+        - "composer-installer.php"
+        - "xdebug-{{ php_xdebug_version }}/"
+        - "xdebug-{{ php_xdebug_version }}.tgz"

@@ -1,0 +1,100 @@
+---
+- hosts: frontend
+  become: yes
+  tasks:
+    - name: Generate auth.json (NEW PROJECT)
+      template:
+        src: templates/auth.json.j2
+        dest: "/tmp/auth.json"
+        mode: 0775
+    - name: Creates directory /home/ubuntu/.composer/
+      file:
+        path: "/home/ubuntu/.composer/"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0775
+    - name: Move auth.json from /tmp into "/home/ubuntu/.composer/"
+      command: mv /tmp/auth.json ~/.composer/auth.json
+    - name: Create directory {{ nginx_magento_server_doc_root }}
+      file:
+        path: "{{ nginx_magento_server_doc_root }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0775
+
+
+
+
+    - name: Start composer installation (the process is long-term ≈ about 30m. Don`t worry - be happy!:)) )
+      composer:
+        command: create-project
+        arguments: --repository-url=https://repo.magento.com/ magento/project-community-edition={{ magento_version }} "{{ nginx_magento_server_doc_root }}"
+        working_dir: "{{ nginx_magento_server_doc_root }}"
+        prefer_dist: yes
+    - name: Set up permissions for magento folders
+      file:
+        path: "{{ nginx_magento_server_doc_root }}/{{ item }}"
+        mode: 0777
+        state: directory
+        recurse: yes
+#        owner: "{{ ansible_user }}"
+#        group: "{{ ansible_user }}"
+      with_items:
+        - "var/"
+        - "pub/static/"
+        - "pub/media/"
+        - "app/etc"
+
+
+
+#    - name: Move auth.json from /tmp into "/vagrant/source/var/composer_home/auth.json"
+#      command: mv /tmp/auth.json {{ nginx_magento_server_doc_root }}/var/composer_home/auth.json
+#    - name: Install Sample Data
+#      shell: "php {{ nginx_magento_server_doc_root }}/bin/magento sampledata:deploy"
+#      args:
+#        chdir: "{{ nginx_magento_server_doc_root }}/bin/"
+
+
+    - name: Install Magento {{ magento_version }}
+      shell: "php {{ nginx_magento_server_doc_root }}/bin/magento setup:install
+      --backend-frontname={{ mage_admin_url }}
+      --db-host={{ db_host }}
+      --db-name={{ db_name }}
+      --db-user={{ db_user }}
+      --db-password={{ db_user_password }}
+      --admin-firstname={{ mage_admin_first_name }}
+      --admin-lastname={{ mage_admin_last_name }}
+      --admin-email={{ mage_admin_email }}
+      --admin-user={{ mage_admin_user_name }}
+      --admin-password={{ mage_admin_password }}
+      --key={{ magento_crypt_key }}"
+      args:
+        chdir: "{{ nginx_magento_server_doc_root }}/bin/"
+
+    - name: Clean generated cache during magento installation
+      file:
+        state: absent
+        path: "{{ nginx_magento_server_doc_root }}/var/cache/"
+    - name: Clean generated full page cache during magento installation
+      file:
+        state: absent
+        path: "{{ nginx_magento_server_doc_root }}/var/page_cache/"
+    - name: Clean generated session during magento installation
+      file:
+        state: absent
+        path: "{{ nginx_magento_server_doc_root }}/var/session/"
+    - name: Remove generated env.php
+      file:
+        state: absent
+        path: "{{ nginx_magento_server_doc_root }}/app/etc/env.php"
+    - name: Generate env.php
+      template:
+        src: templates/env.php.j2
+        dest: "/tmp/env.php"
+        mode: 0775
+#        owner: "{{ ansible_user }}"
+#        group: "{{ ansible_user }}"
+    - name: Move env.php from /tmp into "{{ nginx_magento_server_doc_root }}/app/etc/"
+      command: mv /tmp/env.php {{ nginx_magento_server_doc_root }}/app/etc/env.php
