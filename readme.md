@@ -58,3 +58,14 @@ __Vagrantfile__ - 38, 48, 50, 69 lines
 __ansible/group_vars/all.yml__ - 14, 15 lines
 
 __ansible/inventory/vagrant__ - 2, 5, 8 lines. Also at this lines change `ansible_user` for Ubuntu 14.04 to `vagrant`
+
+
+## Set project status during vagrant up
+
+`vagrant --new-project=true up` for start install new Magento project
+
+`--new-project` can be set as `true` or `false` only
+
+## P.S.
+
+For the existing project this vagrant box not tested completely
