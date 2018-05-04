@@ -51,7 +51,7 @@ Before You start `vagrant up` command change base_url for your store and IP.
 
 You can do this in such files:
 
-__Vagrantfile__ - 38, 48, 50, 69 lines
+__Vagrantfile__ - 58, 68, 70, 94 lines
 
 ~~Also if Your Magento have some stores, add they URL in __Vagrantfile__ at 51 line and uncomment it. But its functional temporary don't work, need to write template for sites-enabled~~
 
