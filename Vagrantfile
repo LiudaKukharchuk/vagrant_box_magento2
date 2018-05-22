@@ -88,8 +88,8 @@ Vagrant.configure("2") do |config|
     end
 
 # Display my custom variable
-        config.vm.provision "shell",
-          inline: "echo '#{$projectStatus}'"
+#         config.vm.provision "shell",
+#           inline: "echo '#{$projectStatus}'"
 
         config.vm.provision :shell, :path => "ansible/windows.sh", :args => "'vagrantbox.m2.local', '#{$projectStatus}'"
 end
