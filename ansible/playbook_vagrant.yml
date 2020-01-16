@@ -4,11 +4,14 @@
       - name: Set new value for variable
         set_fact:
           new_project: "{{ projectStatus }}"
+          install_sample_data: "{{ install_sample_data }}"
         when: (projectStatus == 'false') or (projectStatus == 'true')
   tasks:
-  - name: Print new_project value
+  - name: Print new values for variables
     debug:
-      msg: "new_project: {{ new_project }}\nSome text"
+      msg:
+        - "new_project: {{ new_project }}"
+        - "install_sample_data: {{ install_sample_data }}"
 - import_playbook: database.yml
 - import_playbook: frontend.yml
 - import_playbook: backend.yml
@@ -19,5 +22,9 @@
 #- import_playbook: compozer.yml # old playbook
 - import_playbook: new_project.yml
   when: (new_project == true)
+- import_playbook: sample_data.yml
+  when:
+    - (new_project == true)
+    - (install_sample_data == true)
 - import_playbook: exist_project.yml
   when: (new_project == false)

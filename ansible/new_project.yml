@@ -49,16 +49,6 @@
         - "vendor/"
         - "generated/"
 
-
-
-#    - name: Move auth.json from /tmp into "/vagrant/source/var/composer_home/auth.json"
-#      command: mv /tmp/auth.json {{ nginx_magento_server_doc_root }}/var/composer_home/auth.json
-#    - name: Install Sample Data
-#      shell: "php {{ nginx_magento_server_doc_root }}/bin/magento sampledata:deploy"
-#      args:
-#        chdir: "{{ nginx_magento_server_doc_root }}/bin/"
-
-
     - name: Install Magento {{ magento_version }}
       shell: "php {{ nginx_magento_server_doc_root }}/bin/magento setup:install
       --base-url=http://{{ nginx_magento_server_name }}

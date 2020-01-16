@@ -46,6 +46,23 @@ cd /vagrant/source
 php bin/magento
 ```
 
+Clean all caches & session data:
+```bash
+vagrant ssh
+redis-cli flushall
+```
+
+For clean specific cache use this command:
+```bash
+redis-cli -n 0 flushdb
+```
+
+0 - default cache
+
+1 - full page cache
+
+2 - session
+
 
 ## You can change such variables for installing Magento, all this variable in file `ansible/group_vars/all.yml`.
 
@@ -56,6 +73,10 @@ You can set Magento version what need to be installed. I tested this box with in
 _In brackets specified the default value for this vagrant box_
 
 Just change `magento_version` (2.3.3).
+
+Check if it's new Magento project `new_project` (true)
+
+Check if need to deploy Sample data `install_sample_data` (true)
 
 Change PHP version: `php_version` (7.3)
 
@@ -81,7 +102,7 @@ DB name: `db_name` ("magentodb")
 
 `mage_admin_user_name` - user name for admin panel ("admin")
 
-`mage_admin_password` - password for admin user ("password")
+`mage_admin_password` - password for admin user ("qa123123")
 
 `mage_admin_first_name` - admin first name ("Admin")
 
@@ -134,7 +155,7 @@ I fixed it by commenting first line in `Vagrantfile`:
 # Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
 ```
 
-##Notes
+## Notes
 
 This is my first vagrant box for Magento 2 it is a beta version and can be improved, please help me to improve and fix bugs for this vagrant box.
 
