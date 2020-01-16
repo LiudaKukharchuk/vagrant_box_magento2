@@ -1,4 +1,4 @@
-Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+# Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
 Vagrant.require_version ">= 1.8"
 
 # get my custom variable from console

@@ -32,7 +32,7 @@ magento_redis_db_page_cache: "1"
 magento_redis_db_session: "2"
 magento_redis_compression_lib: "gzip" # "lzf" , "snappy"
 magento_save_session_in_redis: true
-magento_crypt_key: "00000000000000000000000000000000"
+magento_crypt_key: "d316f93ccf5825f2fa37fc60e9ac9ff2"
 magento_mage_mode: "{{ nginx_magento_mage_mode }}"
 magento_date_install: "Tue, 08 Nov 2016 12:05:20 +0000"
 
@@ -311,15 +311,15 @@ mailcatcher_startup_on_boot: true
 
 ####
 # Variables for mage.repo authentication
-mage_username: 00000000000000000000000000000000
-mage_password: 00000000000000000000000000000000
+mage_username: 798c500754d172b66a0f56c9fd9a778b
+mage_password: 12410e68fc8735f8927d65113c03e9e0
 ####
 
 ####
 # Magento installation data
 mage_admin_url: "admin"
 mage_admin_user_name: "admin"
-mage_admin_password: "password"
+mage_admin_password: "qa123123"
 mage_admin_first_name: "Admin"
 mage_admin_last_name: "Admin"
 mage_admin_email: "some.email@email.com"
@@ -332,4 +332,5 @@ mage_use_rewrites: "1"
 ###
 # Check if this is a new project and need to install magento
 new_project: true
+install_sample_data: true
 ###

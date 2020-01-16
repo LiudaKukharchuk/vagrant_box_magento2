@@ -1,0 +1,23 @@
+---
+- hosts: frontend
+  become: yes
+  tasks:
+#Install Sample data
+    - name: Copy auth.json from ~/.composer into "/vagrant/source/var/composer_home/auth.json"
+      command: cp ~/.composer/auth.json {{ nginx_magento_server_doc_root }}/var/composer_home/auth.json
+    - name: Deploy Sample Data. One more long temp proccess. Time to small talk with your collegas :)
+      shell: "php {{ nginx_magento_server_doc_root }}/bin/magento sampledata:deploy"
+      args:
+        chdir: "{{ nginx_magento_server_doc_root }}/bin/"
+    - name: Install Sample Data. How about one more cup of the coffee or tea?
+      shell: "php {{ nginx_magento_server_doc_root }}/bin/magento setup:upgrade"
+      args:
+        chdir: "{{ nginx_magento_server_doc_root }}/bin/"
+    - name: Clean Magento cache
+      shell: "php {{ nginx_magento_server_doc_root }}/bin/magento cache:clean"
+      args:
+        chdir: "{{ nginx_magento_server_doc_root }}/bin/"
+    - name: Flush Magento cache
+      shell: "php {{ nginx_magento_server_doc_root }}/bin/magento cache:flush"
+      args:
+        chdir: "{{ nginx_magento_server_doc_root }}/bin/"
