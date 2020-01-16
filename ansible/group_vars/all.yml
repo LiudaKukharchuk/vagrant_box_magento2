@@ -1,9 +1,9 @@
 ---
 developer_mode: true
-percona_version: "5.6"
-php_version: "7.0"
+percona_version: "5.7"
+php_version: "7.3"
 magento_enable_cron: false
-magento_version: "2.1.1"
+magento_version: "2.3.3"
 ##use_dump_from_stor: true
 ##use_dump_from_extras: false
 
@@ -19,7 +19,7 @@ nginx_magento_server_php_fpm: "unix:/var/run/php{{ php_version }}-fpm.sock"
 nginx_magento_fastcgi_read_timeout: "9000"
 
 
-nginx_magento_mage_mode: "developer" # default or production or developer
+nginx_magento_mage_mode: "default" # default or production or developer
 #### nginx vhost magento End
 
 #### magento env.php Start
@@ -32,7 +32,7 @@ magento_redis_db_page_cache: "1"
 magento_redis_db_session: "2"
 magento_redis_compression_lib: "gzip" # "lzf" , "snappy"
 magento_save_session_in_redis: true
-magento_crypt_key: "d316f93ccf5825f2fa37fc60e9ac9ff2"
+magento_crypt_key: "00000000000000000000000000000000"
 magento_mage_mode: "{{ nginx_magento_mage_mode }}"
 magento_date_install: "Tue, 08 Nov 2016 12:05:20 +0000"
 
@@ -79,7 +79,7 @@ magentotools_install_ioncube_php_version: "{{ php_version }}"
 #### fradee.general Start
 # set timezone fradee.general
 fradee_timezone: "Europe/Kiev"
-#set packgaes fradee.general
+#set packages fradee.general
 fradee_packages:
    - curl
    - acl
@@ -88,6 +88,7 @@ fradee_packages:
    - htop
    - gzip
    - lynx
+   - vim
 #set specsfic repos if need
 fradee_repos:
    - ppa:ondrej/php
@@ -186,13 +187,18 @@ php_packages:
   - "php{{ php_version }}-xml"
   - "php{{ php_version }}-mbstring"
   - "php{{ php_version }}-sqlite3"
-  - "php{{ php_version }}-mcrypt"
   - "php{{ php_version }}-mysql"
   - "php{{ php_version }}-redis"
   - "php{{ php_version }}-soap"
   - "php{{ php_version }}-intl"
   - "php{{ php_version }}-zip"
   - "php-apcu"
+  - "php{{ php_version }}-bcmath"
+  - "php{{ php_version }}-ctype"
+  - "php{{ php_version }}-dom"
+  - "php{{ php_version }}-iconv"
+  - "php{{ php_version }}-simplexml"
+  - "php{{ php_version }}-xsl"
 
 # Vendor-specific configuration paths on Debian/Ubuntu make my brain asplode.
 php_conf_paths:
@@ -255,7 +261,7 @@ php_apc_enable_cli: "0"
 php_use_managed_ini: true
 
 php_expose_php: "On"
-php_memory_limit: "768M"
+php_memory_limit: "2G"
 php_max_execution_time: "1200"
 php_max_input_time: "1200"
 php_max_input_vars: "1000"
@@ -305,18 +311,22 @@ mailcatcher_startup_on_boot: true
 
 ####
 # Variables for mage.repo authentication
-mage_username: d5051aebaa84a71775d745d4fcad83ae
-mage_password: 4de6495a52d49b182bce98c7b914f080
+mage_username: 00000000000000000000000000000000
+mage_password: 00000000000000000000000000000000
 ####
 
 ####
 # Magento installation data
 mage_admin_url: "admin"
 mage_admin_user_name: "admin"
-mage_admin_password: "qa123123"
+mage_admin_password: "password"
 mage_admin_first_name: "Admin"
 mage_admin_last_name: "Admin"
-mage_admin_email: "kuharchuk.luda@gmail.com"
+mage_admin_email: "some.email@email.com"
+mage_language: "en_US"
+mage_currency: "USD"
+mage_timezone: "{{ fradee_timezone }}"
+mage_use_rewrites: "1"
 ####
 
 ###

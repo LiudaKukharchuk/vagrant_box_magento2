@@ -1,5 +1,5 @@
 # Install percona MySQL server from Ansible Galaxy
- - src: Xobb.percona
+ - src: fradee.ansible_percona
 # Install PHP for RedHat/CentOS/Debian/Ubuntu from Ansible Galaxy
  - src: geerlingguy.php
 #   version: 2.0.3

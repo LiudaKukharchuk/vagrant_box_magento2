@@ -1,4 +1,4 @@
-#Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
 Vagrant.require_version ">= 1.8"
 
 # get my custom variable from console
@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
     config.vm.network :private_network, ip: "192.168.33.51"
     config.ssh.forward_agent = true
     config.vm.hostname = "vagrantbox.m2.local"
-    #config.hostsupdater.aliases = ["b2b.xwiki.local" ,"b2c.xwiki.local", "bw.xwiki.local"]
+    #config.hostsupdater.aliases = ["store1.m2.local" ,"store2.m2.local", "storeN.m2.local"]
     config.hostsupdater.remove_on_suspend = false
 
     # Synced folders
@@ -88,8 +88,8 @@ Vagrant.configure("2") do |config|
     end
 
 # Display my custom variable
-#         config.vm.provision "shell",
-#           inline: "echo '#{$projectStatus}'"
+        config.vm.provision "shell",
+          inline: "echo '#{$projectStatus}'"
 
         config.vm.provision :shell, :path => "ansible/windows.sh", :args => "'vagrantbox.m2.local', '#{$projectStatus}'"
 end

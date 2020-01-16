@@ -2,7 +2,7 @@
 - hosts: frontend
   become: yes
   tasks:
-    - name: Set up permissions for magento folders (EXIST PROJECT)
+    - name: Set up permissions for magento folders
       file:
         path: "{{ nginx_magento_server_doc_root }}/{{ item }}"
         mode: 0777
