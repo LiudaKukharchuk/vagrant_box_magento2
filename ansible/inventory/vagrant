@@ -1,11 +1,11 @@
 [frontend]
-vagrantbox.m2.local  ansible_user=vagrant   ansible_port=22
+vagrantbox.m2.local  ansible_user=ubuntu   ansible_port=22
 
 [database]
-vagrantbox.m2.local  ansible_user=vagrant   ansible_port=22
+vagrantbox.m2.local  ansible_user=ubuntu   ansible_port=22
 
 [backend]
-vagrantbox.m2.local  ansible_user=vagrant   ansible_port=22
+vagrantbox.m2.local  ansible_user=ubuntu   ansible_port=22
 
 [vagrant:children]
 database

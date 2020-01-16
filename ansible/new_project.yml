@@ -20,14 +20,14 @@
       file:
         path: "{{ nginx_magento_server_doc_root }}"
         state: directory
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+#        owner: "{{ ansible_user }}"
+#        group: "{{ ansible_user }}"
         mode: 0775
 
 
 
 
-    - name: Start composer installation (the process is long-term ≈ about 30m. Don`t worry - be happy!:)) )
+    - name: Start composer create-project (the process is long-term ≈ about 30m. Best time for cup of coffe or tea :)) )
       composer:
         command: create-project
         arguments: --repository-url=https://repo.magento.com/ magento/project-community-edition={{ magento_version }} "{{ nginx_magento_server_doc_root }}"
@@ -46,6 +46,8 @@
         - "pub/static/"
         - "pub/media/"
         - "app/etc"
+        - "vendor/"
+        - "generated/"
 
 
 
@@ -59,6 +61,7 @@
 
     - name: Install Magento {{ magento_version }}
       shell: "php {{ nginx_magento_server_doc_root }}/bin/magento setup:install
+      --base-url=http://{{ nginx_magento_server_name }}
       --backend-frontname={{ mage_admin_url }}
       --db-host={{ db_host }}
       --db-name={{ db_name }}
@@ -69,6 +72,10 @@
       --admin-email={{ mage_admin_email }}
       --admin-user={{ mage_admin_user_name }}
       --admin-password={{ mage_admin_password }}
+      --language={{ mage_language }}
+      --currency={{ mage_currency }}
+      --timezone={{ mage_timezone }}
+      --use-rewrites={{ mage_use_rewrites }}
       --key={{ magento_crypt_key }}"
       args:
         chdir: "{{ nginx_magento_server_doc_root }}/bin/"
